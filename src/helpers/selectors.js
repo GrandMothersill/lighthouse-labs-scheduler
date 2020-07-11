@@ -1,5 +1,5 @@
-import InterviewerList from "components/InterviewerList";
-import { useCallback } from "react";
+// import InterviewerList from "components/InterviewerList";
+// import { useCallback } from "react";
 
 export function getAppointmentsForDay(state, day) {
     const appointmentsForDay = [];
@@ -29,6 +29,18 @@ export function getInterview(state, interview) {
     )
 }
 
+export function getInterviewersForDay(state, day) {
+    const interviewersForDay = [];
+    const requestedDay = state.days.filter(date => date.name === day)[0]
+
+    if (requestedDay && requestedDay.interviewers) {
+        for (const id of requestedDay.interviewers) {
+            interviewersForDay.push(state.interviewers[id]);
+        }
+    }
+    return interviewersForDay
+};
 
 
-export default { getAppointmentsForDay, getInterview };
+
+export default { getAppointmentsForDay, getInterview, getInterviewersForDay };

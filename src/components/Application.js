@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import "components/Application.scss";
 
-import { getAppointmentsForDay, getInterview } from "helpers/selectors"
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors"
 import DayList from "components/DayList";
 import Appointment from "components/Appointment";
 const axios = require('axios').default;
@@ -40,17 +40,49 @@ export default function Application(props) {
   }, []);
 
   const appointments = getAppointmentsForDay(state, state.day)
+  const interviewers = getInterviewersForDay(state, state.day)
 
-  const schedule = appointments.map(appointment => {
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    setState({
+      ...state,
+      appointments
+    });
+
+    return axios.put(`http://localhost:8001/api/appointments/${id}`, { interview })
+      .then(() => setState({ ...state, appointments }))
+      .catch(err => console.log(err))
+
+  }
+
+  function cancelInterview(id) {
+    console.log("CANCEL", id)
+  }
+
+  const schedule = appointments.map((appointment) => {
+    const interview = getInterview(state, appointment.interview);
+
     return (
       <Appointment
         key={appointment.id}
         id={appointment.id}
         time={appointment.time}
         interview={interview}
+        interviewers={interviewers}
+        bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     );
   });
+
 
   return (
     <main className="layout">
@@ -80,7 +112,6 @@ export default function Application(props) {
         {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
         {schedule}
         <Appointment key="last" time="5pm" />
-
 
       </section>
     </main>
