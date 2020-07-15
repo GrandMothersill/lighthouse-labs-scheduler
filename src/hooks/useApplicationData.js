@@ -71,7 +71,6 @@ export default function useApplicationData() {
 
         setState(prev => ({
             ...prev,
-            days,
             appointments
         }));
 
@@ -105,14 +104,8 @@ export default function useApplicationData() {
         ]
         days[selectedDay] = day
 
-        setState(prev => ({
-            ...prev,
-            days,
-            appointments
-        }));
-
         return axios.delete(`/api/appointments/${id}`)
-            .then(() => setState(prev => ({ ...prev, appointments })))
+            .then(() => setState(prev => ({ ...prev, days, appointments })))
     }
 
 
