@@ -17,15 +17,15 @@ export default function useApplicationData() {
 
     useEffect(() => {
         function getDays() {
-            return axios.get(`http://localhost:8001/api/days`);
+            return axios.get(`/api/days`);
         }
 
         function getAppointmentData() {
-            return axios.get('http://localhost:8001/api/appointments');
+            return axios.get('/api/appointments');
         }
 
         function getInterviewersData() {
-            return axios.get('http://localhost:8001/api/interviewers');
+            return axios.get('/api/interviewers');
         }
 
         Promise.all([getDays(), getAppointmentData(), getInterviewersData()])
@@ -34,7 +34,6 @@ export default function useApplicationData() {
             });
 
     }, []);
-
 
 
     function getDayIndex() {
@@ -49,6 +48,18 @@ export default function useApplicationData() {
     }
 
     function bookInterview(id, interview) {
+        const selectedDay = getDayIndex();
+        const newSpotCount = (state.days[selectedDay].spots - 1)
+
+        const day = {
+            ...state.days[selectedDay],
+            spots: state.appointments[id].interview ? state.days[selectedDay].spots : newSpotCount
+        }
+        const days = [
+            ...state.days,
+        ]
+        days[selectedDay] = day
+
         const appointment = {
             ...state.appointments[id],
             interview: { ...interview }
@@ -58,18 +69,6 @@ export default function useApplicationData() {
             [id]: appointment
         };
 
-        const selectedDay = getDayIndex();
-        const newSpotCount = (state.days[selectedDay].spots - 1)
-
-        const day = {
-            ...state.days[selectedDay],
-            spots: newSpotCount
-        }
-        const days = [
-            ...state.days,
-        ]
-        days[selectedDay] = day
-
         setState(prev => ({
             ...prev,
             days,
@@ -77,7 +76,7 @@ export default function useApplicationData() {
         }));
 
 
-        return axios.put(`http://localhost:8001/api/appointments/${id}`, { interview })
+        return axios.put(`/api/appointments/${id}`, { interview })
             .then(() => setState(prev => ({ ...prev, days, appointments })))
 
     }
