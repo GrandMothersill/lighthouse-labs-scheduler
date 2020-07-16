@@ -1,6 +1,3 @@
-// import InterviewerList from "components/InterviewerList";
-// import { useCallback } from "react";
-
 export function getAppointmentsForDay(state, day) {
     const appointmentsForDay = [];
     const requestedDay = state.days.filter(date => date.name === day)[0]
@@ -27,7 +24,7 @@ export function getInterview(state, interview) {
             }
         }
     )
-}
+};
 
 export function getInterviewersForDay(state, day) {
     const interviewersForDay = [];
@@ -40,7 +37,5 @@ export function getInterviewersForDay(state, day) {
     }
     return interviewersForDay
 };
-
-
 
 export default { getAppointmentsForDay, getInterview, getInterviewersForDay };

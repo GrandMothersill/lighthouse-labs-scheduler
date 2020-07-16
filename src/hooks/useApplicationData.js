@@ -4,6 +4,7 @@ import "components/Application.scss";
 
 const axios = require('axios').default;
 
+// used to set state, make api calls, book, and cancel interviews. Called in Application.js
 export default function useApplicationData() {
     const [state, setState] = useState({
         day: "Monday",
@@ -12,21 +13,18 @@ export default function useApplicationData() {
         interviewers: {}
     });
 
-
     const setDay = day => setState({ ...state, day });
 
     useEffect(() => {
         function getDays() {
             return axios.get(`/api/days`);
-        }
-
+        };
         function getAppointmentData() {
             return axios.get('/api/appointments');
-        }
-
+        };
         function getInterviewersData() {
             return axios.get('/api/interviewers');
-        }
+        };
 
         Promise.all([getDays(), getAppointmentData(), getInterviewersData()])
             .then(function (results) {
@@ -45,7 +43,7 @@ export default function useApplicationData() {
                 index++
             }
         }
-    }
+    };
 
     function bookInterview(id, interview) {
         const selectedDay = getDayIndex();
@@ -69,16 +67,10 @@ export default function useApplicationData() {
             [id]: appointment
         };
 
-        setState(prev => ({
-            ...prev,
-            appointments
-        }));
-
-
         return axios.put(`/api/appointments/${id}`, { interview })
             .then(() => setState(prev => ({ ...prev, days, appointments })))
 
-    }
+    };
 
     function cancelInterview(id) {
 
@@ -106,8 +98,7 @@ export default function useApplicationData() {
 
         return axios.delete(`/api/appointments/${id}`)
             .then(() => setState(prev => ({ ...prev, days, appointments })))
-    }
-
+    };
 
     return (
         {
@@ -118,7 +109,7 @@ export default function useApplicationData() {
         }
     )
 
-}
+};
 
 
 

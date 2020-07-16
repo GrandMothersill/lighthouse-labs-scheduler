@@ -1,17 +1,12 @@
 import React from "react";
-
-import { render, cleanup, waitForElement, fireEvent, getAllByTestId, getByDisplayValue, getByText, prettyDOM, getByTestId, getByPlaceholderText, getByAltText, queryByText, queryByAltText } from "@testing-library/react";
-
+import { render, cleanup, waitForElement, fireEvent, getAllByTestId, getByDisplayValue, getByText, getByPlaceholderText, getByAltText, queryByText, queryByAltText } from "@testing-library/react";
 import Application from "components/Application";
-
 import axios from "axios";
-
 
 afterEach(cleanup);
 
-
-
 describe("Application", () => {
+
   it("changes the schedule when a new day is selected", async () => {
     const { getByText } = render(<Application />);
 
@@ -21,6 +16,7 @@ describe("Application", () => {
 
     expect(getByText("Leopold Silvers")).toBeInTheDocument();
   });
+
 
   it("loads data, books an interview and reduces the spots remaining for Monday by 1", async () => {
     const { container } = render(<Application />);
@@ -108,6 +104,7 @@ describe("Application", () => {
     expect(getByText(day, "1 spot remaining")).toBeInTheDocument()
   })
 
+
   it("shows the save error when failing to save an appointment", async () => {
     axios.put.mockRejectedValueOnce();
     const { container } = render(<Application />);
@@ -135,9 +132,7 @@ describe("Application", () => {
     );
 
     expect(getByText(day, "1 spot remaining")).toBeInTheDocument()
-
   });
-
 
 
   it("shows the delete error when failing to delete an appointment", async () => {
@@ -166,7 +161,6 @@ describe("Application", () => {
     );
 
     expect(getByText(day, "1 spot remaining")).toBeInTheDocument()
-
   });
 
 });
