@@ -8,6 +8,13 @@ Built using React.
 
 Install dependencies with `npm install`.
 
+## Screenshots
+
+!["Screenshot of create-appointment-form]https://github.com/GrandMothersill/lighthouse-labs-scheduler/blob/master/docs/Screenshot%20of%20Form.png?raw=true
+!["Screenshot of saving]https://github.com/GrandMothersill/lighthouse-labs-scheduler/blob/master/docs/Screenshot%20of%20Saving.png?raw=true
+!["Screenshot of delete-confirmation]https://github.com/GrandMothersill/lighthouse-labs-scheduler/blob/master/docs/Screenshot%20of%20Delete%20Confirmation.png?raw=true
+
+
 ## Running Webpack Development Server
 
 ```sh
